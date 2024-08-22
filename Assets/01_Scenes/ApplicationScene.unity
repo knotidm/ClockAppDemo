@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 44598545}
   - component: {fileID: 44598546}
+  - component: {fileID: 44598547}
   m_Layer: 5
   m_Name: ClockScreen
   m_TagString: Untagged
@@ -169,6 +170,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 44598544}
   m_CullTransparentMesh: 1
+--- !u!114 &44598547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44598544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d6d494e3c15a14587cef4ac3c9beff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ScreenType>k__BackingField: 0
 --- !u!1 &54644598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1270,8 +1284,9 @@ GameObject:
   - component: {fileID: 611227394}
   - component: {fileID: 611227393}
   - component: {fileID: 611227395}
+  - component: {fileID: 611227396}
   m_Layer: 5
-  m_Name: ClockButton
+  m_Name: ClockToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1384,7 +1399,21 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
+--- !u!114 &611227396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611227390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 119644938b12a5042b81a8b7ed4e479d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toggle: {fileID: 611227395}
+  _screenType: 0
 --- !u!1 &627269392
 GameObject:
   m_ObjectHideFlags: 0
@@ -1443,7 +1472,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b61f09277bb4c914e954b68f8096a6de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1c2f64a23183340449f9b028991377b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2061,8 +2090,9 @@ GameObject:
   - component: {fileID: 871565361}
   - component: {fileID: 871565360}
   - component: {fileID: 871565362}
+  - component: {fileID: 871565363}
   m_Layer: 5
-  m_Name: StopwatchButton
+  m_Name: StopwatchToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2176,6 +2206,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &871565363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871565357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 119644938b12a5042b81a8b7ed4e479d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toggle: {fileID: 871565362}
+  _screenType: 2
 --- !u!1 &879922710
 GameObject:
   m_ObjectHideFlags: 0
@@ -3145,6 +3189,7 @@ GameObject:
   - component: {fileID: 1107041383}
   - component: {fileID: 1107041385}
   - component: {fileID: 1107041384}
+  - component: {fileID: 1107041386}
   m_Layer: 5
   m_Name: MainScreen
   m_TagString: Untagged
@@ -3213,6 +3258,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107041382}
   m_CullTransparentMesh: 1
+--- !u!114 &1107041386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107041382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b7ed9c0077a94e4eadcdc3c2d06c1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _screenViews:
+  - {fileID: 44598547}
+  - {fileID: 1619757888}
+  - {fileID: 1889426744}
 --- !u!1 &1201677675
 GameObject:
   m_ObjectHideFlags: 0
@@ -4223,6 +4284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1619757886}
   - component: {fileID: 1619757887}
+  - component: {fileID: 1619757888}
   m_Layer: 5
   m_Name: TimerScreen
   m_TagString: Untagged
@@ -4268,6 +4330,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619757885}
   m_CullTransparentMesh: 1
+--- !u!114 &1619757888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619757885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d6d494e3c15a14587cef4ac3c9beff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ScreenType>k__BackingField: 1
 --- !u!1 &1652729684
 GameObject:
   m_ObjectHideFlags: 0
@@ -4644,6 +4719,7 @@ GameObject:
   - component: {fileID: 1807359858}
   - component: {fileID: 1807359857}
   - component: {fileID: 1807359856}
+  - component: {fileID: 1807359860}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -4734,6 +4810,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1807359860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807359855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1043a90bc8cd9164b94f6776c173e3a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainScreenPresenter: {fileID: 1107041386}
 --- !u!1 &1843189114
 GameObject:
   m_ObjectHideFlags: 0
@@ -4924,6 +5013,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1889426742}
   - component: {fileID: 1889426743}
+  - component: {fileID: 1889426744}
   m_Layer: 5
   m_Name: StopwatchScreen
   m_TagString: Untagged
@@ -4962,6 +5052,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889426741}
   m_CullTransparentMesh: 1
+--- !u!114 &1889426744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889426741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d6d494e3c15a14587cef4ac3c9beff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ScreenType>k__BackingField: 2
+--- !u!1 &1940130360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1940130362}
+  - component: {fileID: 1940130361}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1940130361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940130360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 1807359860}
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!4 &1940130362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940130360}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1977191312
 GameObject:
   m_ObjectHideFlags: 0
@@ -5361,8 +5528,9 @@ GameObject:
   - component: {fileID: 2086611049}
   - component: {fileID: 2086611048}
   - component: {fileID: 2086611050}
+  - component: {fileID: 2086611051}
   m_Layer: 5
-  m_Name: TimerButton
+  m_Name: TimerToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5476,3 +5644,17 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &2086611051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086611045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 119644938b12a5042b81a8b7ed4e479d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toggle: {fileID: 2086611050}
+  _screenType: 1

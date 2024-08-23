@@ -26,7 +26,7 @@ namespace ClockAppDemo
                     {
                         _mainScreenPresenter.ChangeToScreen(_screenType);
                     }
-                });
+                }).AddTo(this);
         }
     }
 }

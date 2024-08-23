@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c5df0362d1b6344dafc06ea152d9aa7, type: 3}
-  m_Name: TimerChannelSO
+  m_Script: {fileID: 11500000, guid: 1d19f413e27fdfe45ba72259f7fdd0ec, type: 3}
+  m_Name: StopwatchEventChannelSO
   m_EditorClassIdentifier: 
-  IsTimerCreated:
-    value: 0
-  IsTimerPlaying:
-    value: 0
+  IsStopwatchCreated:
+    value: 1
+  IsStopwatchPlaying:
+    value: 1

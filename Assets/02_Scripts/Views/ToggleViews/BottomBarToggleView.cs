@@ -19,14 +19,14 @@ namespace ClockAppDemo
                 _toggle.Select();
             }
 
-            _toggle.OnValueChangedAsObservable().Subscribe(
-                isOn =>
+            _toggle.OnValueChangedAsObservable().Subscribe(isOn =>
+            {
+                if (isOn)
                 {
-                    if (isOn)
-                    {
-                        _mainScreenPresenter.ChangeToScreen(_screenType);
-                    }
-                }).AddTo(this);
+                    _mainScreenPresenter.ChangeToScreen(_screenType);
+                }
+
+            }).AddTo(this);
         }
     }
 }

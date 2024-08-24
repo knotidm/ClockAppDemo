@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TimerEventChannelSO
   m_EditorClassIdentifier: 
   IsTimerCreated:
-    value: 1
+    value: 0
   IsTimerPlaying:
-    value: 1
+    value: 0

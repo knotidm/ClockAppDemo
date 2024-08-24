@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: StopwatchEventChannelSO
   m_EditorClassIdentifier: 
   IsStopwatchCreated:
-    value: 1
+    value: 0
   IsStopwatchPlaying:
-    value: 1
+    value: 0

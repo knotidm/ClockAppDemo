@@ -537,13 +537,14 @@ GameObject:
   m_Component:
   - component: {fileID: 161604629}
   - component: {fileID: 161604630}
+  - component: {fileID: 161604631}
   m_Layer: 5
   m_Name: InputFieldsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &161604629
 RectTransform:
   m_ObjectHideFlags: 0
@@ -577,6 +578,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161604628}
   m_CullTransparentMesh: 1
+--- !u!114 &161604631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161604628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff70720dac5a9c44bf674fed8bcbabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputFields:
+  - {fileID: 1750824977}
+  - {fileID: 1999815169}
+  - {fileID: 856976358}
 --- !u!1 &215799955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2943,8 +2960,9 @@ GameObject:
   - component: {fileID: 1074575018}
   - component: {fileID: 1074575020}
   - component: {fileID: 1074575019}
+  - component: {fileID: 1074575021}
   m_Layer: 5
-  m_Name: CurrentTimeText
+  m_Name: ClockCurrentTimeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3067,6 +3085,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074575017}
   m_CullTransparentMesh: 1
+--- !u!114 &1074575021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074575017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3afaaa85eb83e243b0103bf27f48269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentTimeText: {fileID: 1074575019}
 --- !u!1 &1079633829
 GameObject:
   m_ObjectHideFlags: 0
@@ -4156,7 +4187,7 @@ GameObject:
   - component: {fileID: 1544288939}
   - component: {fileID: 1544288941}
   m_Layer: 5
-  m_Name: TimerElapsedTimeText
+  m_Name: TimerTimeToExpireText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4291,7 +4322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6516bcc0367d1ee40b16e2e4d4b30453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _elapsedTimeText: {fileID: 1544288939}
+  _timeToExpireText: {fileID: 1544288939}
 --- !u!1 &1601213998
 GameObject:
   m_ObjectHideFlags: 0
@@ -5084,6 +5115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainScreenPresenter: {fileID: 1107041386}
+  _inputFieldsPresenter: {fileID: 161604631}
 --- !u!1 &1843189114
 GameObject:
   m_ObjectHideFlags: 0
@@ -5298,7 +5330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1889426742
 RectTransform:
   m_ObjectHideFlags: 0

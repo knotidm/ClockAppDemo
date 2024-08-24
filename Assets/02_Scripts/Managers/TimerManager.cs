@@ -1,21 +1,25 @@
-using ImprovedTimers;
 using System;
+using System.Diagnostics;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace ClockAppDemo
 {
     public class TimerManager : MonoBehaviour
     {
         [SerializeField] private TimerEventChannelSO _timerEventChannel;
+        [Inject] private IInputFieldsPresenter _inputFieldsPresenter;
 
-        public Timer timer;
+        public Stopwatch Stopwatch { get; private set; }
+
+        private int _countDownSeconds;
+        public int TimeToExpire { get; private set; }
 
         public event Action OnTimerStopEvent;
 
         private void Start()
         {
-            timer = new Timer(60f);
             _timerEventChannel.IsTimerCreated.Value = false;
             _timerEventChannel.IsTimerPlaying.Value = false;
 
@@ -25,16 +29,17 @@ namespace ClockAppDemo
                 {
                     if (!_timerEventChannel.IsTimerCreated.Value)
                     {
-                        Debug.Log("Timer IsPlaying and not created = new Timer(60f)");
+                        _countDownSeconds = _inputFieldsPresenter.GetTimerInitialTime();
+                        _inputFieldsPresenter.SetActive(false);
+                        UnityEngine.Debug.Log("Timer = new Timer() with _countDownSeconds -" + _countDownSeconds);
 
-                        timer = new Timer(60f);
-                        timer.Start();
+                        Stopwatch = new Stopwatch();
+                        Play();
                     }
                     else
                     {
-                        Debug.Log("Timer IsPlaying and created - timer.Resume()");
-
-                        timer.Resume();
+                        UnityEngine.Debug.Log("Timer Resume()");
+                        Resume();
                     }
 
                 }
@@ -42,9 +47,8 @@ namespace ClockAppDemo
                 {
                     if (_timerEventChannel.IsTimerCreated.Value)
                     {
-                        Debug.Log("Timer Is Not Playing and created - timer.Pause()");
-
-                        timer.Pause();
+                        UnityEngine.Debug.Log("Timer Pause()");
+                        Pause();
                     }
                 }
 
@@ -54,12 +58,44 @@ namespace ClockAppDemo
             {
                 if (!isTimerCreated)
                 {
-                    Debug.Log("Timer Is not created - timer.Stop()");
+                    UnityEngine.Debug.Log("Timer Stop()");
+                    _inputFieldsPresenter.SetActive(true);
 
-                    timer.Stop();
+                    Stop();
                     OnTimerStopEvent?.Invoke();
                 }
             }).AddTo(this);
+        }
+
+        private void Play()
+        {
+            Stopwatch.Start();
+
+            Stopwatch.ObserveEveryValueChanged(stopwatch => stopwatch.Elapsed.Seconds)
+                .TakeWhile(elapsedSeconds => elapsedSeconds <= _countDownSeconds)
+                .Subscribe(elapsedSeconds =>
+                {
+                    TimeToExpire = _countDownSeconds - elapsedSeconds;
+                });
+        }
+
+        private void Pause()
+        {
+            Stopwatch?.Stop();
+        }
+
+        private void Resume()
+        {
+            if (!Stopwatch.IsRunning)
+            {
+                Play();
+            }
+        }
+
+        private void Stop()
+        {
+            Stopwatch?.Stop();
+            Stopwatch = null;
         }
     }
 }

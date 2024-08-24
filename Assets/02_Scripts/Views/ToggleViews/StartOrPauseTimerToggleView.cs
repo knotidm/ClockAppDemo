@@ -11,11 +11,11 @@ namespace ClockAppDemo
         {
             base.Start();
 
-            _toggle.OnValueChangedAsObservable().Subscribe(isOn =>
+            _toggle.OnValueChangedAsObservable().Subscribe(startTimer =>
             {
-                _timerEventChannel.IsTimerPlaying.Value = isOn;
+                _timerEventChannel.IsTimerPlaying.Value = startTimer;
 
-                if (isOn)
+                if (startTimer)
                 {
                     _timerEventChannel.IsTimerCreated.Value = true;
                 }

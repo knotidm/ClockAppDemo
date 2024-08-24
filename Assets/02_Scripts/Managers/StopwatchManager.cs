@@ -1,5 +1,5 @@
-using ImprovedTimers;
 using System;
+using System.Diagnostics;
 using UniRx;
 using UnityEngine;
 
@@ -9,13 +9,13 @@ namespace ClockAppDemo
     {
         [SerializeField] private StopwatchEventChannelSO _stopwatchChannel;
 
-        public Stopwatch stopwatch;
+        public Stopwatch Stopwatch { get; private set; }
+        public long ElapsedMilliseconds { get; private set; }
 
         public event Action OnStopwatchStopEvent;
 
         private void Start()
         {
-            stopwatch = new Stopwatch();
             _stopwatchChannel.IsStopwatchCreated.Value = false;
             _stopwatchChannel.IsStopwatchPlaying.Value = false;
 
@@ -25,16 +25,14 @@ namespace ClockAppDemo
                 {
                     if (!_stopwatchChannel.IsStopwatchCreated.Value)
                     {
-                        Debug.Log("Stopwatch IsPlaying and not created = new Stopwatch()");
-
-                        stopwatch = new Stopwatch();
-                        stopwatch.Start();
+                        UnityEngine.Debug.Log("Stopwatch = new Stopwatch()");
+                        Stopwatch = new Stopwatch();
+                        Play();
                     }
                     else
                     {
-                        Debug.Log("Stopwatch IsPlaying and Created - stopwatch.Resume()");
-
-                        stopwatch.Resume();
+                        UnityEngine.Debug.Log("Stopwatch Resume()");
+                        Resume();
                     }
 
                 }
@@ -42,9 +40,8 @@ namespace ClockAppDemo
                 {
                     if (_stopwatchChannel.IsStopwatchCreated.Value)
                     {
-                        Debug.Log("Stopwatch Is Not Playing and created - stopwatch.Pause()");
-
-                        stopwatch.Pause();
+                        UnityEngine.Debug.Log("Stopwatch Pause()");
+                        Pause();
                     }
                 }
 
@@ -54,12 +51,46 @@ namespace ClockAppDemo
             {
                 if (!isStopwatchCreated)
                 {
-                    Debug.Log("Stopwatch Is Not Playing and not created - stopwatch.Stop()");
+                    UnityEngine.Debug.Log("Stopwatch Stop()");
 
-                    stopwatch.Stop();
+                    Stop();
                     OnStopwatchStopEvent?.Invoke();
                 }
             }).AddTo(this);
+        }
+
+        private void Play()
+        {
+            Stopwatch.Start();
+
+            Stopwatch.ObserveEveryValueChanged(stopwatch => stopwatch.ElapsedMilliseconds)
+                .Subscribe(elapsedMilliseconds =>
+                {
+                    ElapsedMilliseconds = elapsedMilliseconds;
+                });
+        }
+
+        private void Pause()
+        {
+            if (Stopwatch.IsRunning)
+            {
+                Stopwatch.Stop();
+            }
+        }
+
+        private void Resume()
+        {
+            if (!Stopwatch.IsRunning)
+            {
+                Play();
+            }
+        }
+
+        private void Stop()
+        {
+            ElapsedMilliseconds = 0;
+            Stopwatch?.Stop();
+            Stopwatch = null;
         }
     }
 }

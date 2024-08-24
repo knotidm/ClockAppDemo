@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -12,14 +13,6 @@ namespace ClockAppDemo
         private void Start()
         {
             _stopwatchManager.OnStopwatchStopEvent += ResetElapsedTimeText;
-
-            //StopwatchManager.stopwatch.CurrentTime.Subscribe(currentTime =>
-            //{
-            //    Debug.Log("StopwatchManager.stopwatch.CurrentTime.Subscribe currentTime - " + currentTime);
-            //    Debug.Log("StopwatchManager.stopwatch.CurrentTime - " + StopwatchManager.stopwatch.CurrentTime);
-
-            //    _elapsedTimeText.text = currentTime.ToString();
-            //}).AddTo(this);
         }
 
         private void OnDestroy()
@@ -29,13 +22,16 @@ namespace ClockAppDemo
 
         private void Update()
         {
-            if (!_stopwatchManager.stopwatch.IsRunning) return;
-            _elapsedTimeText.text = _stopwatchManager.stopwatch.CurrentTime.ToString();
+            if (_stopwatchManager.Stopwatch == null) return;
+
+            TimeSpan currentTimeSpan = TimeSpan.FromMilliseconds(_stopwatchManager.ElapsedMilliseconds);
+
+            _elapsedTimeText.text = currentTimeSpan.ToString(@"mm\:ss\.ff");
         }
 
         private void ResetElapsedTimeText()
         {
-            _elapsedTimeText.text = 0.ToString();
+            _elapsedTimeText.text = TimeSpan.Zero.ToString();
         }
     }
 }

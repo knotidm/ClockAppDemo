@@ -1,14 +1,21 @@
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace ClockAppDemo
 {
     public class RecordOrResetStopwatchToggleView : MainScreenToggleView
     {
         [SerializeField] private StopwatchEventChannelSO _stopwatchEventChannel;
+        [Inject] private IRecordedTimesPresenter _recordedTimesPresenter;
+        [Inject] private StopwatchManager _stopwatchManager;
+
+        private long _latestLapElapsedMiliseconds;
 
         protected override void Start()
         {
+            RestartLatestLapElapsedMiliseconds();
+
             _stopwatchEventChannel.IsStopwatchCreated.Subscribe(isStopwatchCreated =>
             {
                 _toggle.interactable = isStopwatchCreated;
@@ -16,7 +23,6 @@ namespace ClockAppDemo
 
             _stopwatchEventChannel.IsStopwatchPlaying.Subscribe(isStopwatchPlaying =>
             {
-                //_toggle.isOn = isStopwatchPlaying;
                 _toggleOnIcon.gameObject.SetActive(isStopwatchPlaying);
                 _toggleOffIcon.gameObject.SetActive(!isStopwatchPlaying);
             }).AddTo(this);
@@ -25,24 +31,31 @@ namespace ClockAppDemo
             {
                 if (_toggleOnIcon.isActiveAndEnabled)
                 {
-                    // TODO: Record Stopwatch
-                    //Debug.Log("TODO: Record Stopwatch");
+                    _recordedTimesPresenter.AddRecordToList(
+                        _stopwatchManager.ElapsedMilliseconds - _latestLapElapsedMiliseconds,
+                        _stopwatchManager.ElapsedMilliseconds
+                        );
+
+                    _latestLapElapsedMiliseconds = _stopwatchManager.ElapsedMilliseconds;
                 }
                 else
                 {
                     if (_stopwatchEventChannel.IsStopwatchCreated.Value)
                     {
-                        Debug.Log("ResetStopwatchToggle _stopwatchEventChannel.IsStopwatchCreated.Value = false;");
+                        _recordedTimesPresenter.ClearRecordedTimesPanel();
+                        RestartLatestLapElapsedMiliseconds();
 
                         _stopwatchEventChannel.IsStopwatchCreated.Value = false;
                         _toggle.interactable = false;
-
-                        // TODO: Reset Stopwatch
-                        //Debug.Log("TODO: Reset Stopwatch");
                     }
 
                 }
             }).AddTo(this);
+        }
+
+        private void RestartLatestLapElapsedMiliseconds()
+        {
+            _latestLapElapsedMiliseconds = 0;
         }
     }
 }

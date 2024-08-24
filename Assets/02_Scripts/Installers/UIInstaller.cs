@@ -6,7 +6,8 @@ namespace ClockAppDemo
     public class UIInstaller : MonoInstaller
     {
         [SerializeField] private MainScreenPresenter _mainScreenPresenter;
-        [SerializeField] private InputFieldsPresenter _inputFieldsPresenter;
+        [SerializeField] private TimerInputFieldsPresenter _inputFieldsPresenter;
+        [SerializeField] private RecordedTimesPresenter _recordedTimesPresenter;
 
         public override void InstallBindings()
         {
@@ -18,6 +19,9 @@ namespace ClockAppDemo
                 .Bind<IInputFieldsPresenter>()
                 .FromInstance(_inputFieldsPresenter);
 
+            Container
+                .Bind<IRecordedTimesPresenter>()
+                .FromInstance(_recordedTimesPresenter);
         }
     }
 }

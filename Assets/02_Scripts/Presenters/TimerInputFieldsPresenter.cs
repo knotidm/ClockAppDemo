@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ClockAppDemo
 {
-    public class InputFieldsPresenter : MonoBehaviour, IInputFieldsPresenter
+    public class TimerInputFieldsPresenter : MonoBehaviour, IInputFieldsPresenter
     {
         [SerializeField] TMP_InputField[] _inputFields;
 

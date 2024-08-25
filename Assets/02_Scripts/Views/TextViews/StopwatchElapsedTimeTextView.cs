@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -7,22 +8,24 @@ namespace ClockAppDemo
 {
     public class StopwatchElapsedTimeTextView : MonoBehaviour
     {
-        [SerializeField] TMP_Text _elapsedTimeText;
-        [Inject] StopwatchManager _stopwatchManager;
+        [Inject] private readonly StopwatchManager _stopwatchManager;
+
+        [SerializeField] private TMP_Text _elapsedTimeText;
 
         private void Start()
         {
-            _stopwatchManager.OnStopwatchStopEvent += ResetElapsedTimeText;
-        }
-
-        private void OnDestroy()
-        {
-            _stopwatchManager.OnStopwatchStopEvent -= ResetElapsedTimeText;
+            _stopwatchManager.IsStopwatchCreated.Subscribe(isStopwatchCreated =>
+            {
+                if (!isStopwatchCreated)
+                {
+                    ResetElapsedTimeText();
+                }
+            }).AddTo(this);
         }
 
         private void Update()
         {
-            if (_stopwatchManager.Stopwatch == null) return;
+            if (!_stopwatchManager.IsStopwatchRunning.Value) return;
 
             TimeSpan currentTimeSpan = TimeSpan.FromMilliseconds(_stopwatchManager.ElapsedMilliseconds);
 

@@ -7,10 +7,10 @@ namespace ClockAppDemo
 {
     public class BottomBarToggleView : MonoBehaviour
     {
+        [Inject] private readonly IMainScreenPresenter _mainScreenPresenter;
+
         [SerializeField] private Toggle _toggle;
         [SerializeField] private ScreenType _screenType;
-
-        [Inject] private readonly IMainScreenPresenter _mainScreenPresenter;
 
         private void Start()
         {

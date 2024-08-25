@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using UniRx;
 using UnityEngine;
@@ -7,59 +6,52 @@ namespace ClockAppDemo
 {
     public class StopwatchManager : MonoBehaviour
     {
-        [SerializeField] private StopwatchEventChannelSO _stopwatchChannel;
+        public BoolReactiveProperty IsStopwatchCreated = new BoolReactiveProperty(false);
+        public BoolReactiveProperty IsStopwatchRunning = new BoolReactiveProperty(false);
 
-        public Stopwatch Stopwatch { get; private set; }
+        private Stopwatch Stopwatch { get; set; }
         public long ElapsedMilliseconds { get; private set; }
-
-        public event Action OnStopwatchStopEvent;
 
         private void Start()
         {
-            _stopwatchChannel.IsStopwatchCreated.Value = false;
-            _stopwatchChannel.IsStopwatchPlaying.Value = false;
+            IsStopwatchCreated.Value = false;
+            IsStopwatchRunning.Value = false;
 
-            _stopwatchChannel.IsStopwatchPlaying.Subscribe(isStopwatchPlaying =>
+            IsStopwatchRunning.Subscribe(isStopwatchRunning =>
             {
-                if (isStopwatchPlaying)
+                if (isStopwatchRunning)
                 {
-                    if (!_stopwatchChannel.IsStopwatchCreated.Value)
+                    if (!IsStopwatchCreated.Value)
                     {
-                        UnityEngine.Debug.Log("Stopwatch = new Stopwatch()");
                         Stopwatch = new Stopwatch();
-                        Play();
+                        Run();
                     }
                     else
                     {
-                        UnityEngine.Debug.Log("Stopwatch Resume()");
                         Resume();
                     }
 
                 }
                 else
                 {
-                    if (_stopwatchChannel.IsStopwatchCreated.Value)
+                    if (IsStopwatchCreated.Value)
                     {
-                        UnityEngine.Debug.Log("Stopwatch Pause()");
                         Pause();
                     }
                 }
 
             }).AddTo(this);
 
-            _stopwatchChannel.IsStopwatchCreated.Subscribe(isStopwatchCreated =>
+            IsStopwatchCreated.Subscribe(isStopwatchCreated =>
             {
                 if (!isStopwatchCreated)
                 {
-                    UnityEngine.Debug.Log("Stopwatch Stop()");
-
                     Stop();
-                    OnStopwatchStopEvent?.Invoke();
                 }
             }).AddTo(this);
         }
 
-        private void Play()
+        private void Run()
         {
             Stopwatch.Start();
 
@@ -82,7 +74,7 @@ namespace ClockAppDemo
         {
             if (!Stopwatch.IsRunning)
             {
-                Play();
+                Run();
             }
         }
 

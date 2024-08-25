@@ -1,11 +1,11 @@
 using UniRx;
-using UnityEngine;
+using Zenject;
 
 namespace ClockAppDemo
 {
     public class StartOrPauseStopwatchToggleView : MainScreenToggleView
     {
-        [SerializeField] private StopwatchEventChannelSO _stopwatchEventChannel;
+        [Inject] private readonly StopwatchManager _stopwatchManager;
 
         protected override void Start()
         {
@@ -13,11 +13,11 @@ namespace ClockAppDemo
 
             _toggle.OnValueChangedAsObservable().Subscribe(isOn =>
             {
-                _stopwatchEventChannel.IsStopwatchPlaying.Value = isOn;
+                _stopwatchManager.IsStopwatchRunning.Value = isOn;
 
                 if (isOn)
                 {
-                    _stopwatchEventChannel.IsStopwatchCreated.Value = true;
+                    _stopwatchManager.IsStopwatchCreated.Value = true;
                 }
 
             }).AddTo(this);

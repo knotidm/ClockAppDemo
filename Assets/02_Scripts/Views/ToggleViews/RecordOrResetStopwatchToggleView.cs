@@ -1,14 +1,12 @@
 using UniRx;
-using UnityEngine;
 using Zenject;
 
 namespace ClockAppDemo
 {
     public class RecordOrResetStopwatchToggleView : MainScreenToggleView
     {
-        [SerializeField] private StopwatchEventChannelSO _stopwatchEventChannel;
-        [Inject] private IRecordedTimesPresenter _recordedTimesPresenter;
-        [Inject] private StopwatchManager _stopwatchManager;
+        [Inject] private readonly IRecordedTimesPresenter _recordedTimesPresenter;
+        [Inject] private readonly StopwatchManager _stopwatchManager;
 
         private long _latestLapElapsedMiliseconds;
 
@@ -16,41 +14,51 @@ namespace ClockAppDemo
         {
             RestartLatestLapElapsedMiliseconds();
 
-            _stopwatchEventChannel.IsStopwatchCreated.Subscribe(isStopwatchCreated =>
+            _stopwatchManager.IsStopwatchCreated.Subscribe(isStopwatchCreated =>
             {
                 _toggle.interactable = isStopwatchCreated;
             }).AddTo(this);
 
-            _stopwatchEventChannel.IsStopwatchPlaying.Subscribe(isStopwatchPlaying =>
+            _stopwatchManager.IsStopwatchRunning.Subscribe(isStopwatchRunning =>
             {
-                _toggleOnIcon.gameObject.SetActive(isStopwatchPlaying);
-                _toggleOffIcon.gameObject.SetActive(!isStopwatchPlaying);
+                _toggleOnIcon.gameObject.SetActive(isStopwatchRunning);
+                _toggleOffIcon.gameObject.SetActive(!isStopwatchRunning);
             }).AddTo(this);
 
             _toggle.OnValueChangedAsObservable().Subscribe(isOn =>
             {
                 if (_toggleOnIcon.isActiveAndEnabled)
                 {
-                    _recordedTimesPresenter.AddRecordToList(
-                        _stopwatchManager.ElapsedMilliseconds - _latestLapElapsedMiliseconds,
-                        _stopwatchManager.ElapsedMilliseconds
-                        );
-
-                    _latestLapElapsedMiliseconds = _stopwatchManager.ElapsedMilliseconds;
+                    AddStopwatchRecord();
                 }
                 else
                 {
-                    if (_stopwatchEventChannel.IsStopwatchCreated.Value)
+                    if (_stopwatchManager.IsStopwatchCreated.Value)
                     {
-                        _recordedTimesPresenter.ClearRecordedTimesPanel();
-                        RestartLatestLapElapsedMiliseconds();
-
-                        _stopwatchEventChannel.IsStopwatchCreated.Value = false;
-                        _toggle.interactable = false;
+                        RestartStopwatch();
                     }
 
                 }
             }).AddTo(this);
+        }
+
+        private void AddStopwatchRecord()
+        {
+            _recordedTimesPresenter.AddRecordToList(
+                _stopwatchManager.ElapsedMilliseconds - _latestLapElapsedMiliseconds,
+                _stopwatchManager.ElapsedMilliseconds
+                );
+
+            _latestLapElapsedMiliseconds = _stopwatchManager.ElapsedMilliseconds;
+        }
+
+        private void RestartStopwatch()
+        {
+            _recordedTimesPresenter.ClearRecordedTimesPanel();
+            RestartLatestLapElapsedMiliseconds();
+
+            _stopwatchManager.IsStopwatchCreated.Value = false;
+            _toggle.interactable = false;
         }
 
         private void RestartLatestLapElapsedMiliseconds()

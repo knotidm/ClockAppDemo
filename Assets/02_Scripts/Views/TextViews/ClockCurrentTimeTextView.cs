@@ -6,7 +6,7 @@ namespace ClockAppDemo
 {
     public class ClockCurrentTimeTextView : MonoBehaviour
     {
-        [SerializeField] TMP_Text _currentTimeText;
+        [SerializeField] private TMP_Text _currentTimeText;
 
         private void Update()
         {

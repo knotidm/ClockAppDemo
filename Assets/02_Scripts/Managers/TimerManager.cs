@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using UniRx;
 using UnityEngine;
@@ -8,94 +7,88 @@ namespace ClockAppDemo
 {
     public class TimerManager : MonoBehaviour
     {
-        [SerializeField] private TimerEventChannelSO _timerEventChannel;
-        [Inject] private IInputFieldsPresenter _inputFieldsPresenter;
+        [Inject] private readonly IInputFieldsPresenter _inputFieldsPresenter;
 
-        public Stopwatch Stopwatch { get; private set; }
+        public BoolReactiveProperty IsTimerCreated = new BoolReactiveProperty(false);
+        public BoolReactiveProperty IsTimerRunning = new BoolReactiveProperty(false);
 
-        private int _countDownSeconds;
+        private Stopwatch Timer { get; set; }
+        private int _initialTime;
+
         public int TimeToExpire { get; private set; }
-
-        public event Action OnTimerStopEvent;
 
         private void Start()
         {
-            _timerEventChannel.IsTimerCreated.Value = false;
-            _timerEventChannel.IsTimerPlaying.Value = false;
+            IsTimerCreated.Value = false;
+            IsTimerRunning.Value = false;
 
-            _timerEventChannel.IsTimerPlaying.Subscribe(isTimerPlaying =>
+            IsTimerRunning.Subscribe(isTimerRunning =>
             {
-                if (isTimerPlaying)
+                if (isTimerRunning)
                 {
-                    if (!_timerEventChannel.IsTimerCreated.Value)
+                    if (!IsTimerCreated.Value)
                     {
-                        _countDownSeconds = _inputFieldsPresenter.GetTimerInitialTime();
+                        _initialTime = _inputFieldsPresenter.GetTimerInitialTime();
                         _inputFieldsPresenter.SetActive(false);
-                        UnityEngine.Debug.Log("Timer = new Timer() with _countDownSeconds -" + _countDownSeconds);
 
-                        Stopwatch = new Stopwatch();
-                        Play();
+                        Timer = new Stopwatch();
+                        Run();
                     }
                     else
                     {
-                        UnityEngine.Debug.Log("Timer Resume()");
                         Resume();
                     }
 
                 }
                 else
                 {
-                    if (_timerEventChannel.IsTimerCreated.Value)
+                    if (IsTimerCreated.Value)
                     {
-                        UnityEngine.Debug.Log("Timer Pause()");
                         Pause();
                     }
                 }
 
             }).AddTo(this);
 
-            _timerEventChannel.IsTimerCreated.Subscribe(isTimerCreated =>
+            IsTimerCreated.Subscribe(isTimerCreated =>
             {
                 if (!isTimerCreated)
                 {
-                    UnityEngine.Debug.Log("Timer Stop()");
                     _inputFieldsPresenter.SetActive(true);
-
                     Stop();
-                    OnTimerStopEvent?.Invoke();
                 }
             }).AddTo(this);
         }
 
-        private void Play()
+        private void Run()
         {
-            Stopwatch.Start();
+            Timer.Start();
 
-            Stopwatch.ObserveEveryValueChanged(stopwatch => stopwatch.Elapsed.Seconds)
-                .TakeWhile(elapsedSeconds => elapsedSeconds <= _countDownSeconds)
+            Timer.ObserveEveryValueChanged(stopwatch => stopwatch.Elapsed.Seconds)
+                .TakeWhile(elapsedSeconds => elapsedSeconds <= _initialTime)
                 .Subscribe(elapsedSeconds =>
                 {
-                    TimeToExpire = _countDownSeconds - elapsedSeconds;
+                    TimeToExpire = _initialTime - elapsedSeconds;
                 });
         }
 
         private void Pause()
         {
-            Stopwatch?.Stop();
+            Timer?.Stop();
         }
 
         private void Resume()
         {
-            if (!Stopwatch.IsRunning)
+            if (!Timer.IsRunning)
             {
-                Play();
+                Run();
             }
         }
 
         private void Stop()
         {
-            Stopwatch?.Stop();
-            Stopwatch = null;
+            Timer?.Stop();
+            Timer = null;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -7,30 +8,31 @@ namespace ClockAppDemo
 {
     public class TimerTimeToExpireTextView : MonoBehaviour
     {
-        [SerializeField] TMP_Text _timeToExpireText;
-        [Inject] TimerManager _timerManager;
+        [Inject] private readonly TimerManager _timerManager;
+
+        [SerializeField] private TMP_Text _timeToExpireText;
 
         private void Start()
         {
-            ResetElapsedTimeText();
-            _timerManager.OnTimerStopEvent += ResetElapsedTimeText;
-        }
-
-        private void OnDestroy()
-        {
-            _timerManager.OnTimerStopEvent -= ResetElapsedTimeText;
+            _timerManager.IsTimerCreated.Subscribe(isTimerCreated =>
+            {
+                if (!isTimerCreated)
+                {
+                    ResetTimeToExpireText();
+                }
+            }).AddTo(this);
         }
 
         private void Update()
         {
-            if (_timerManager.Stopwatch == null) return;
+            if (!_timerManager.IsTimerRunning.Value) return;
 
             TimeSpan currentTimeSpan = TimeSpan.FromSeconds(_timerManager.TimeToExpire);
 
             _timeToExpireText.text = $"{(int)currentTimeSpan.TotalHours:00}{currentTimeSpan:\\:mm\\:ss}";
         }
 
-        private void ResetElapsedTimeText()
+        private void ResetTimeToExpireText()
         {
             _timeToExpireText.text = string.Empty;
         }

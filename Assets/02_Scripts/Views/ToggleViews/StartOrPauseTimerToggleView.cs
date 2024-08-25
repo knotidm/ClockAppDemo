@@ -1,0 +1,32 @@
+using UniRx;
+using Zenject;
+
+namespace ClockAppDemo
+{
+    public class StartOrPauseTimerToggleView : MainScreenToggleView
+    {
+        [Inject] private readonly TimerManager _timerManager;
+
+        protected override void Start()
+        {
+            base.Start();
+
+            _toggle.OnValueChangedAsObservable().Subscribe(isOn =>
+            {
+                _timerManager.IsTimerRunning.Value = isOn;
+
+                if (isOn)
+                {
+                    _timerManager.IsTimerCreated.Value = true;
+                }
+
+            }).AddTo(this);
+
+            _timerManager.IsTimerCreated.Subscribe(isTimerCreated =>
+            {
+                _toggle.isOn = isTimerCreated;
+
+            }).AddTo(this);
+        }
+    }
+}

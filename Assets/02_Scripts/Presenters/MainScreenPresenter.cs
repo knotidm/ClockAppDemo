@@ -5,7 +5,7 @@ namespace ClockAppDemo
 {
     public class MainScreenPresenter : MonoBehaviour, IMainScreenPresenter
     {
-        [SerializeField] private ScreenView[] _screenViews;
+        [SerializeField] public ScreenView[] _screenViews;
 
         public void ChangeToScreen(ScreenType screenType)
         {

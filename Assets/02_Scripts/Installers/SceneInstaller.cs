@@ -1,9 +1,10 @@
+using System.Diagnostics;
 using UnityEngine;
 using Zenject;
 
 namespace ClockAppDemo
 {
-    public class UIInstaller : MonoInstaller
+    public class SceneInstaller : MonoInstaller
     {
         [SerializeField] private MainScreenPresenter _mainScreenPresenter;
         [SerializeField] private TimerInputFieldsPresenter _inputFieldsPresenter;
@@ -22,6 +23,12 @@ namespace ClockAppDemo
             Container
                 .Bind<IRecordedTimesPresenter>()
                 .FromInstance(_recordedTimesPresenter);
+
+            StopwatchManager _stopwatchManager = new StopwatchManager(new Stopwatch());
+            TimerManager _timerManager = new TimerManager(new Stopwatch());
+
+            Container.Bind<StopwatchManager>().FromInstance(_stopwatchManager).AsSingle();
+            Container.Bind<TimerManager>().FromInstance(_timerManager).AsSingle();
         }
     }
 }

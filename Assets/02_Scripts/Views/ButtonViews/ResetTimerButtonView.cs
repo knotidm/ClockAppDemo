@@ -15,12 +15,16 @@ namespace ClockAppDemo
         {
             _timerManager.IsTimerCreated.Subscribe(isTimerCreated =>
             {
+                Debug.Log("ResetTimerButtonView _button.interactable = isTimerCreated");
+
                 _button.interactable = isTimerCreated;
 
             }).AddTo(this);
 
             _button.OnClickAsObservable().Subscribe(onClick =>
             {
+                Debug.Log("ResetTimerButtonView _timerManager.IsTimerCreated.Value = false");
+
                 _timerManager.IsTimerCreated.Value = false;
                 _timerManager.IsTimerRunning.Value = false;
                 _button.interactable = false;

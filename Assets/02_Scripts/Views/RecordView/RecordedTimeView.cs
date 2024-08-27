@@ -12,15 +12,20 @@ namespace ClockAppDemo
 
         public void SetRecord(int index, long lapTime, long totalTime)
         {
-            _numberText.text = index.ToString();
-
-            TimeSpan lapTimeSpan = TimeSpan.FromMilliseconds(lapTime);
-
-            _lapTimeText.text = lapTimeSpan.ToString(@"mm\:ss\.ff");
-
-            TimeSpan totalTimeSpan = TimeSpan.FromMilliseconds(totalTime);
-
-            _totalTimeText.text = totalTimeSpan.ToString(@"mm\:ss\.ff");
+            if (_numberText != null)
+            {
+                _numberText.text = index.ToString();
+            }
+            if (_lapTimeText != null)
+            {
+                TimeSpan lapTimeSpan = TimeSpan.FromMilliseconds(lapTime);
+                _lapTimeText.text = lapTimeSpan.ToString(@"mm\:ss\.ff");
+            }
+            if (_totalTimeText != null)
+            {
+                TimeSpan totalTimeSpan = TimeSpan.FromMilliseconds(totalTime);
+                _totalTimeText.text = totalTimeSpan.ToString(@"mm\:ss\.ff");
+            }
         }
     }
 }

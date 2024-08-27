@@ -6,15 +6,15 @@ namespace ClockAppDemo
 {
     public class RecordedTimesPresenter : MonoBehaviour, IRecordedTimesPresenter
     {
-        [SerializeField] private Transform _content;
-        [SerializeField] private RecordedTimeView _recordedTimeViewPrefab;
-        [SerializeField] private TMP_Text _lapTimeLabelText;
-        [SerializeField] private TMP_Text _totalTimeLabelText;
+        [SerializeField] public Transform _content;
+        [SerializeField] public RecordedTimeView _recordedTimeViewPrefab;
+        [SerializeField] public TMP_Text _lapTimeLabelText;
+        [SerializeField] public TMP_Text _totalTimeLabelText;
 
-        private List<RecordedTimeView> _recordedTimeViews;
-        private int _index;
+        public List<RecordedTimeView> _recordedTimeViews;
+        public int _index;
 
-        private void Start()
+        public void Start()
         {
             _recordedTimeViews = new List<RecordedTimeView>();
             ResetIndex();

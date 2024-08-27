@@ -1,14 +1,10 @@
 using System.Diagnostics;
 using UniRx;
-using UnityEngine;
-using Zenject;
 
 namespace ClockAppDemo
 {
-    public class TimerManager : MonoBehaviour
+    public class TimerManager
     {
-        [Inject] private readonly IInputFieldsPresenter _inputFieldsPresenter;
-
         public BoolReactiveProperty IsTimerCreated = new BoolReactiveProperty(false);
         public BoolReactiveProperty IsTimerRunning = new BoolReactiveProperty(false);
 
@@ -17,7 +13,19 @@ namespace ClockAppDemo
 
         public int TimeToExpire { get; private set; }
 
-        private void Start()
+        public TimerManager(Stopwatch timer)
+        {
+            Timer = timer;
+            Initialize();
+        }
+
+        ~TimerManager()
+        {
+            IsTimerCreated.Dispose();
+            IsTimerRunning.Dispose();
+        }
+
+        private void Initialize()
         {
             IsTimerCreated.Value = false;
             IsTimerRunning.Value = false;
@@ -28,11 +36,9 @@ namespace ClockAppDemo
                 {
                     if (!IsTimerCreated.Value)
                     {
-                        _initialTime = _inputFieldsPresenter.GetTimerInitialTime();
-                        _inputFieldsPresenter.SetActive(false);
-
                         Timer = new Stopwatch();
                         Run();
+                        IsTimerCreated.Value = true;
                     }
                     else
                     {
@@ -48,16 +54,20 @@ namespace ClockAppDemo
                     }
                 }
 
-            }).AddTo(this);
+            });
 
             IsTimerCreated.Subscribe(isTimerCreated =>
             {
                 if (!isTimerCreated)
                 {
-                    _inputFieldsPresenter.SetActive(true);
                     Stop();
                 }
-            }).AddTo(this);
+            });
+        }
+
+        public void SetInitialTimeInSeconds(int initialTime)
+        {
+            _initialTime = initialTime;
         }
 
         private void Run()
@@ -89,6 +99,8 @@ namespace ClockAppDemo
         {
             Timer?.Stop();
             Timer = null;
+            IsTimerRunning.Value = false;
+            TimeToExpire = 0;
         }
     }
 }

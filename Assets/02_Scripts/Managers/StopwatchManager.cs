@@ -1,10 +1,9 @@
 using System.Diagnostics;
 using UniRx;
-using UnityEngine;
 
 namespace ClockAppDemo
 {
-    public class StopwatchManager : MonoBehaviour
+    public class StopwatchManager
     {
         public BoolReactiveProperty IsStopwatchCreated = new BoolReactiveProperty(false);
         public BoolReactiveProperty IsStopwatchRunning = new BoolReactiveProperty(false);
@@ -12,7 +11,19 @@ namespace ClockAppDemo
         private Stopwatch Stopwatch { get; set; }
         public long ElapsedMilliseconds { get; private set; }
 
-        private void Start()
+        public StopwatchManager(Stopwatch stopwatch)
+        {
+            Stopwatch = stopwatch;
+            Initialize();
+        }
+
+        ~StopwatchManager()
+        {
+            IsStopwatchCreated.Dispose();
+            IsStopwatchRunning.Dispose();
+        }
+
+        private void Initialize()
         {
             IsStopwatchCreated.Value = false;
             IsStopwatchRunning.Value = false;
@@ -25,6 +36,7 @@ namespace ClockAppDemo
                     {
                         Stopwatch = new Stopwatch();
                         Run();
+                        IsStopwatchCreated.Value = true;
                     }
                     else
                     {
@@ -40,7 +52,7 @@ namespace ClockAppDemo
                     }
                 }
 
-            }).AddTo(this);
+            });
 
             IsStopwatchCreated.Subscribe(isStopwatchCreated =>
             {
@@ -48,7 +60,7 @@ namespace ClockAppDemo
                 {
                     Stop();
                 }
-            }).AddTo(this);
+            });
         }
 
         private void Run()
@@ -83,6 +95,8 @@ namespace ClockAppDemo
             ElapsedMilliseconds = 0;
             Stopwatch?.Stop();
             Stopwatch = null;
+            IsStopwatchRunning.Value = false;
+
         }
     }
 }

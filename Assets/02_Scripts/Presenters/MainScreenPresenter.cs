@@ -5,12 +5,17 @@ namespace ClockAppDemo
 {
     public class MainScreenPresenter : MonoBehaviour, IMainScreenPresenter
     {
-        [SerializeField] private ScreenView[] _screenViews;
+        [SerializeField] public ScreenView[] _screenViews;
 
         public void ChangeToScreen(ScreenType screenType)
         {
-            DisableScreens();
-            _screenViews.SingleOrDefault(_ => _.ScreenType == screenType).gameObject.SetActive(true);
+            ScreenView resultScreen = _screenViews.SingleOrDefault(_ => _.ScreenType == screenType);
+
+            if (resultScreen != null)
+            {
+                DisableScreens();
+                resultScreen.gameObject.SetActive(true);
+            }
         }
 
         public void DisableScreens()

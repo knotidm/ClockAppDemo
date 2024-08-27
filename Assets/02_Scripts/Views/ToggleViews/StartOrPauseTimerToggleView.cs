@@ -15,11 +15,6 @@ namespace ClockAppDemo
             {
                 _timerManager.IsTimerRunning.Value = isOn;
 
-                if (isOn)
-                {
-                    _timerManager.IsTimerCreated.Value = true;
-                }
-
             }).AddTo(this);
 
             _timerManager.IsTimerCreated.Subscribe(isTimerCreated =>

@@ -7,7 +7,7 @@ namespace ClockAppDemo
     {
         [Inject] private readonly TimerManager _timerManager;
 
-        protected override void Start()
+        public override void Start()
         {
             base.Start();
 

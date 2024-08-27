@@ -9,7 +9,7 @@ namespace ClockAppDemo
         public BoolReactiveProperty IsStopwatchRunning = new BoolReactiveProperty(false);
 
         private Stopwatch Stopwatch { get; set; }
-        public long ElapsedMilliseconds { get; private set; }
+        public long ElapsedMilliseconds { get; set; }
 
         public StopwatchManager(Stopwatch stopwatch)
         {
@@ -32,13 +32,13 @@ namespace ClockAppDemo
             {
                 if (isStopwatchRunning)
                 {
-                    if (!IsStopwatchCreated.Value)
+                    if (Stopwatch == null && !IsStopwatchCreated.Value)
                     {
                         Stopwatch = new Stopwatch();
                         Run();
                         IsStopwatchCreated.Value = true;
                     }
-                    else
+                    else if (Stopwatch != null && IsStopwatchCreated.Value)
                     {
                         Resume();
                     }

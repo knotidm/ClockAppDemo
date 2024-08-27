@@ -27,13 +27,14 @@ namespace ClockAppDemo.Tests
 
             PreInstall();
 
+            Container.Bind<TimerManager>().FromInstance(_timerManager).AsSingle();
             Container.Bind<TimerInputFieldsPresenter>().FromNewComponentOnNewGameObject().AsSingle();
 
             PostInstall();
 
             _timerInputFieldsPresenter = Container.Resolve<TimerInputFieldsPresenter>();
-            _timerInputFieldsPresenter.Initialize(_timerManager);
             _timerInputFieldsPresenter._inputFields = _inputFields;
+            _timerInputFieldsPresenter.Start();
         }
 
         [Test]

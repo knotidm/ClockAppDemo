@@ -79,8 +79,6 @@ namespace ClockAppDemo.Tests
             await Task.Delay(1000);
             _timerManager.IsTimerCreated.Value = false;
 
-            UnityEngine.Debug.Log(_timerManager.TimeToExpire);
-
             Assert.AreEqual(0, _timerManager.TimeToExpire);
             Assert.IsFalse(_timerManager.IsTimerCreated.Value);
             Assert.IsFalse(_timerManager.IsTimerRunning.Value);

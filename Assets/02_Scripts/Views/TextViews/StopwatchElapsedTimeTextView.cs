@@ -10,9 +10,9 @@ namespace ClockAppDemo
     {
         [Inject] private readonly StopwatchManager _stopwatchManager;
 
-        [SerializeField] private TMP_Text _elapsedTimeText;
+        [SerializeField] public TMP_Text _elapsedTimeText;
 
-        private void Start()
+        public void Start()
         {
             _stopwatchManager.IsStopwatchCreated.Subscribe(isStopwatchCreated =>
             {
@@ -23,7 +23,7 @@ namespace ClockAppDemo
             }).AddTo(this);
         }
 
-        private void Update()
+        public void Update()
         {
             if (!_stopwatchManager.IsStopwatchRunning.Value) return;
 

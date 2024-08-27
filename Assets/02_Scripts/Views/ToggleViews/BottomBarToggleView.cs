@@ -9,10 +9,10 @@ namespace ClockAppDemo
     {
         [Inject] private readonly IMainScreenPresenter _mainScreenPresenter;
 
-        [SerializeField] private Toggle _toggle;
-        [SerializeField] private ScreenType _screenType;
+        [SerializeField] public Toggle _toggle;
+        [SerializeField] public ScreenType _screenType;
 
-        private void Start()
+        public void Start()
         {
             if (_toggle.isOn)
             {

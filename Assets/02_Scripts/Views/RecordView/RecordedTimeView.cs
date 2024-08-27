@@ -6,9 +6,9 @@ namespace ClockAppDemo
 {
     public class RecordedTimeView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _numberText;
-        [SerializeField] private TMP_Text _lapTimeText;
-        [SerializeField] private TMP_Text _totalTimeText;
+        [SerializeField] public TMP_Text _numberText;
+        [SerializeField] public TMP_Text _lapTimeText;
+        [SerializeField] public TMP_Text _totalTimeText;
 
         public void SetRecord(int index, long lapTime, long totalTime)
         {

@@ -10,9 +10,9 @@ namespace ClockAppDemo
     {
         [Inject] private readonly TimerManager _timerManager;
 
-        [SerializeField] private TMP_Text _timeToExpireText;
+        [SerializeField] public TMP_Text _timeToExpireText;
 
-        private void Start()
+        public void Start()
         {
             _timerManager.IsTimerCreated.Subscribe(isTimerCreated =>
             {
@@ -23,7 +23,7 @@ namespace ClockAppDemo
             }).AddTo(this);
         }
 
-        private void Update()
+        public void Update()
         {
             if (!_timerManager.IsTimerRunning.Value) return;
 

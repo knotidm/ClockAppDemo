@@ -8,10 +8,9 @@ namespace ClockAppDemo
     public class ResetTimerButtonView : MonoBehaviour
     {
         [Inject] private readonly TimerManager _timerManager;
+        [SerializeField] public Button _button;
 
-        [SerializeField] private Button _button;
-
-        void Start()
+        public void Start()
         {
             _timerManager.IsTimerCreated.Subscribe(isTimerCreated =>
             {

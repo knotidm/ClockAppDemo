@@ -1,19 +1,18 @@
 using TMPro;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace ClockAppDemo
 {
     public class TimerInputFieldsPresenter : MonoBehaviour, IInputFieldsPresenter
     {
-        private TimerManager _timerManager;
+        [Inject] private readonly TimerManager _timerManager;
 
         [SerializeField] public TMP_InputField[] _inputFields;
 
-        public void Initialize(TimerManager timerManager)
+        public void Start()
         {
-            _timerManager = timerManager;
-
             _timerManager.IsTimerCreated.Subscribe(isTimerCreated =>
             {
                 if (isTimerCreated)

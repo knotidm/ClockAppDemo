@@ -38,10 +38,6 @@ namespace ClockAppDemo.Tests
 
             await Task.Delay(100);
 
-            UnityEngine.Debug.Log(_stopwatchManager.IsStopwatchCreated.Value);
-            UnityEngine.Debug.Log(_stopwatchManager.IsStopwatchRunning.Value);
-            UnityEngine.Debug.Log(_stopwatchManager.ElapsedMilliseconds);
-
             Assert.IsTrue(_stopwatchManager.IsStopwatchCreated.Value);
             Assert.IsTrue(_stopwatchManager.IsStopwatchRunning.Value);
             Assert.Greater(_stopwatchManager.ElapsedMilliseconds, 0);

@@ -7,7 +7,7 @@ namespace ClockAppDemo
     {
         [Inject] private readonly StopwatchManager _stopwatchManager;
 
-        protected override void Start()
+        public override void Start()
         {
             base.Start();
 

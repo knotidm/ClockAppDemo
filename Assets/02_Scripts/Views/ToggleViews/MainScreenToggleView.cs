@@ -6,11 +6,11 @@ namespace ClockAppDemo
 {
     public class MainScreenToggleView : MonoBehaviour
     {
-        [SerializeField] protected Toggle _toggle;
-        [SerializeField] protected Image _toggleOnIcon;
-        [SerializeField] protected Image _toggleOffIcon;
+        [SerializeField] public Toggle _toggle;
+        [SerializeField] public Image _toggleOnIcon;
+        [SerializeField] public Image _toggleOffIcon;
 
-        protected virtual void Start()
+        public virtual void Start()
         {
             _toggle.OnValueChangedAsObservable().Subscribe(isOn =>
             {

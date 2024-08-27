@@ -15,19 +15,9 @@ namespace ClockAppDemo
             StopwatchManager stopwatchManager = new StopwatchManager(new Stopwatch());
             TimerManager timerManager = new TimerManager(new Stopwatch());
 
-            _inputFieldsPresenter.Initialize(timerManager);
-
-            Container
-                .Bind<IMainScreenPresenter>()
-                .FromInstance(_mainScreenPresenter);
-
-            Container
-                .Bind<IInputFieldsPresenter>()
-                .FromInstance(_inputFieldsPresenter);
-
-            Container
-                .Bind<IRecordedTimesPresenter>()
-                .FromInstance(_recordedTimesPresenter);
+            Container.Bind<IMainScreenPresenter>().FromInstance(_mainScreenPresenter);
+            Container.Bind<IInputFieldsPresenter>().FromInstance(_inputFieldsPresenter);
+            Container.Bind<IRecordedTimesPresenter>().FromInstance(_recordedTimesPresenter);
 
             Container.Bind<StopwatchManager>().FromInstance(stopwatchManager).AsSingle();
             Container.Bind<TimerManager>().FromInstance(timerManager).AsSingle();

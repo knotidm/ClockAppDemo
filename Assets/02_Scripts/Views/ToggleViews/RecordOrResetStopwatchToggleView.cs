@@ -10,7 +10,7 @@ namespace ClockAppDemo
 
         private long _latestLapElapsedMiliseconds;
 
-        protected override void Start()
+        public override void Start()
         {
             RestartLatestLapElapsedMiliseconds();
 

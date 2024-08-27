@@ -9,7 +9,7 @@ namespace ClockAppDemo
 
         public void ChangeToScreen(ScreenType screenType)
         {
-            ScreenView resultScreen = _screenViews.SingleOrDefault(_ => _.ScreenType == screenType);
+            ScreenView resultScreen = _screenViews?.SingleOrDefault(_ => _.ScreenType == screenType);
 
             if (resultScreen != null)
             {

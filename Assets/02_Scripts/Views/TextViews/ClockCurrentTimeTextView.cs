@@ -6,9 +6,9 @@ namespace ClockAppDemo
 {
     public class ClockCurrentTimeTextView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _currentTimeText;
+        [SerializeField] public TMP_Text _currentTimeText;
 
-        private void Update()
+        public void Update()
         {
             _currentTimeText.text = DateTime.Now.ToString("HH:mm:ss");
         }

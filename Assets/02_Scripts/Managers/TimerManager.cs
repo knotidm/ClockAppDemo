@@ -11,7 +11,7 @@ namespace ClockAppDemo
         private Stopwatch Timer { get; set; }
         private int _initialTime;
 
-        public int TimeToExpire { get; private set; }
+        public int TimeToExpire { get; set; }
 
         public TimerManager(Stopwatch timer)
         {
@@ -34,13 +34,13 @@ namespace ClockAppDemo
             {
                 if (isTimerRunning)
                 {
-                    if (!IsTimerCreated.Value)
+                    if (Timer == null && !IsTimerCreated.Value)
                     {
                         Timer = new Stopwatch();
                         Run();
                         IsTimerCreated.Value = true;
                     }
-                    else
+                    else if (Timer != null && IsTimerCreated.Value)
                     {
                         Resume();
                     }

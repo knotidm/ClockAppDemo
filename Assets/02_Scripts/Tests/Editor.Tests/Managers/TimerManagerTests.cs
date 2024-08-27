@@ -18,6 +18,13 @@ namespace ClockAppDemo.Tests
             _timerManager.SetInitialTimeInSeconds(5);
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            _stopwatch = null;
+            _timerManager = null;
+        }
+
         [Test]
         public void Initialize_SetsInitialValues()
         {

@@ -9,8 +9,13 @@ namespace ClockAppDemo
 
         public void ChangeToScreen(ScreenType screenType)
         {
-            DisableScreens();
-            _screenViews.SingleOrDefault(_ => _.ScreenType == screenType).gameObject.SetActive(true);
+            ScreenView resultScreen = _screenViews.SingleOrDefault(_ => _.ScreenType == screenType);
+
+            if (resultScreen != null)
+            {
+                DisableScreens();
+                resultScreen.gameObject.SetActive(true);
+            }
         }
 
         public void DisableScreens()

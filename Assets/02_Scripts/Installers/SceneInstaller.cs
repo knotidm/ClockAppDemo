@@ -12,6 +12,11 @@ namespace ClockAppDemo
 
         public override void InstallBindings()
         {
+            StopwatchManager stopwatchManager = new StopwatchManager(new Stopwatch());
+            TimerManager timerManager = new TimerManager(new Stopwatch());
+
+            _inputFieldsPresenter.Initialize(timerManager);
+
             Container
                 .Bind<IMainScreenPresenter>()
                 .FromInstance(_mainScreenPresenter);
@@ -24,11 +29,8 @@ namespace ClockAppDemo
                 .Bind<IRecordedTimesPresenter>()
                 .FromInstance(_recordedTimesPresenter);
 
-            StopwatchManager _stopwatchManager = new StopwatchManager(new Stopwatch());
-            TimerManager _timerManager = new TimerManager(new Stopwatch());
-
-            Container.Bind<StopwatchManager>().FromInstance(_stopwatchManager).AsSingle();
-            Container.Bind<TimerManager>().FromInstance(_timerManager).AsSingle();
+            Container.Bind<StopwatchManager>().FromInstance(stopwatchManager).AsSingle();
+            Container.Bind<TimerManager>().FromInstance(timerManager).AsSingle();
         }
     }
 }

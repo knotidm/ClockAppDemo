@@ -62,7 +62,7 @@ namespace ClockAppDemo.Tests
         [Test]
         public void AddStopwatchRecord_ShouldCallAddRecordToList()
         {
-            _stopwatchManager.ElapsedMilliseconds = 5000;
+            _stopwatchManager.ElapsedMilliseconds.Value = 5000;
             _toggleOnIcon.gameObject.SetActive(true);
             _toggle.isOn = true;
 

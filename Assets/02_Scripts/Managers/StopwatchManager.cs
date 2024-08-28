@@ -5,14 +5,18 @@ namespace ClockAppDemo
 {
     public class StopwatchManager
     {
-        public BoolReactiveProperty IsStopwatchCreated = new BoolReactiveProperty(false);
-        public BoolReactiveProperty IsStopwatchRunning = new BoolReactiveProperty(false);
+        public BoolReactiveProperty IsStopwatchCreated { get; set; }
+        public BoolReactiveProperty IsStopwatchRunning { get; set; }
 
         private Stopwatch Stopwatch { get; set; }
-        public long ElapsedMilliseconds { get; set; }
+        public LongReactiveProperty ElapsedMilliseconds { get; set; }
 
         public StopwatchManager(Stopwatch stopwatch)
         {
+            IsStopwatchCreated = new BoolReactiveProperty(false);
+            IsStopwatchRunning = new BoolReactiveProperty(false);
+            ElapsedMilliseconds = new LongReactiveProperty();
+
             Stopwatch = stopwatch;
             Initialize();
         }
@@ -70,7 +74,7 @@ namespace ClockAppDemo
             Stopwatch.ObserveEveryValueChanged(stopwatch => stopwatch.ElapsedMilliseconds)
                 .Subscribe(elapsedMilliseconds =>
                 {
-                    ElapsedMilliseconds = elapsedMilliseconds;
+                    ElapsedMilliseconds.Value = elapsedMilliseconds;
                 });
         }
 
@@ -92,7 +96,7 @@ namespace ClockAppDemo
 
         private void Stop()
         {
-            ElapsedMilliseconds = 0;
+            ElapsedMilliseconds.Value = 0;
             Stopwatch?.Stop();
             Stopwatch = null;
             IsStopwatchRunning.Value = false;

@@ -44,9 +44,7 @@ namespace ClockAppDemo.Tests
         public void Update_WhenStopwatchIsRunning_UpdatesElapsedTimeText()
         {
             _stopwatchManager.IsStopwatchRunning.Value = true;
-            _stopwatchManager.ElapsedMilliseconds = 65000;
-
-            _stopwatchElapsedTimeTextView.Update();
+            _stopwatchManager.ElapsedMilliseconds.Value = 65000;
 
             Assert.AreEqual("01:05.00", _elapsedTimeText.text);
         }
@@ -57,8 +55,6 @@ namespace ClockAppDemo.Tests
             _stopwatchManager.IsStopwatchRunning.Value = false;
             _elapsedTimeText.text = "Initial Text";
 
-            _stopwatchElapsedTimeTextView.Update();
-
             Assert.AreEqual("Initial Text", _elapsedTimeText.text);
         }
 
@@ -66,9 +62,7 @@ namespace ClockAppDemo.Tests
         public void Update_WhenStopwatchIsRunningWithMilliseconds_UpdatesElapsedTimeTextWithMilliseconds()
         {
             _stopwatchManager.IsStopwatchRunning.Value = true;
-            _stopwatchManager.ElapsedMilliseconds = 65123;
-
-            _stopwatchElapsedTimeTextView.Update();
+            _stopwatchManager.ElapsedMilliseconds.Value = 65123;
 
             Assert.AreEqual("01:05.12", _elapsedTimeText.text);
         }

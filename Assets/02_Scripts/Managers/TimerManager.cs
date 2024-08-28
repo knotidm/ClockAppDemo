@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using UniRx;
 
@@ -5,16 +6,21 @@ namespace ClockAppDemo
 {
     public class TimerManager
     {
-        public BoolReactiveProperty IsTimerCreated = new BoolReactiveProperty(false);
-        public BoolReactiveProperty IsTimerRunning = new BoolReactiveProperty(false);
+        public BoolReactiveProperty IsTimerCreated { get; set; }
+        public BoolReactiveProperty IsTimerRunning { get; set; }
 
         private Stopwatch Timer { get; set; }
         private int _initialTime;
 
-        public int TimeToExpire { get; set; }
+        public IntReactiveProperty TimeToExpire { get; set; }
+
+        public event Action OnTimerFinished;
 
         public TimerManager(Stopwatch timer)
         {
+            IsTimerCreated = new BoolReactiveProperty(false);
+            IsTimerRunning = new BoolReactiveProperty(false);
+            TimeToExpire = new IntReactiveProperty();
             Timer = timer;
             Initialize();
         }
@@ -75,12 +81,18 @@ namespace ClockAppDemo
         {
             Timer.Start();
 
+
             Timer.ObserveEveryValueChanged(stopwatch => stopwatch.Elapsed.Seconds)
-                .TakeWhile(elapsedSeconds => elapsedSeconds <= _initialTime)
-                .Subscribe(elapsedSeconds =>
+            .TakeWhile(elapsedSeconds => elapsedSeconds <= _initialTime)
+            .Subscribe(elapsedSeconds =>
+            {
+                TimeToExpire.Value = _initialTime - elapsedSeconds;
+
+                if (TimeToExpire.Value == 0)
                 {
-                    TimeToExpire = _initialTime - elapsedSeconds;
-                });
+                    OnTimerFinished?.Invoke();
+                }
+            });
         }
 
         private void Pause()
@@ -101,7 +113,7 @@ namespace ClockAppDemo
             Timer?.Stop();
             Timer = null;
             IsTimerRunning.Value = false;
-            TimeToExpire = 0;
+            TimeToExpire.Value = 0;
         }
     }
 }

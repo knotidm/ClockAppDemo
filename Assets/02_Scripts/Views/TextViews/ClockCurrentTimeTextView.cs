@@ -10,6 +10,7 @@ namespace ClockAppDemo
 
         public void Update()
         {
+            //Debug.Log(TimeZoneInfo.Local);
             _currentTimeText.text = DateTime.Now.ToString("HH:mm:ss");
         }
     }

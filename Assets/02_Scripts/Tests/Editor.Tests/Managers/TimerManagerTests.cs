@@ -41,7 +41,7 @@ namespace ClockAppDemo.Tests
 
             Assert.IsTrue(_timerManager.IsTimerCreated.Value);
             Assert.IsTrue(_timerManager.IsTimerRunning.Value);
-            Assert.Greater(_timerManager.TimeToExpire, 0);
+            Assert.Greater(_timerManager.TimeToExpire.Value, 0);
         }
 
         [Test]
@@ -50,11 +50,11 @@ namespace ClockAppDemo.Tests
             _timerManager.IsTimerRunning.Value = true;
             await Task.Delay(100);
             _timerManager.IsTimerRunning.Value = false;
-            long pausedTime = _timerManager.TimeToExpire;
+            long pausedTime = _timerManager.TimeToExpire.Value;
             await Task.Delay(100);
 
             Assert.IsFalse(_timerManager.IsTimerRunning.Value);
-            Assert.AreEqual(pausedTime, _timerManager.TimeToExpire);
+            Assert.AreEqual(pausedTime, _timerManager.TimeToExpire.Value);
         }
 
 
@@ -64,11 +64,11 @@ namespace ClockAppDemo.Tests
             _timerManager.IsTimerRunning.Value = true;
             await Task.Delay(1000);
             _timerManager.IsTimerRunning.Value = false;
-            long pausedTime = _timerManager.TimeToExpire;
+            long pausedTime = _timerManager.TimeToExpire.Value;
             _timerManager.IsTimerRunning.Value = true;
             await Task.Delay(1000);
             Assert.IsTrue(_timerManager.IsTimerRunning.Value);
-            Assert.Less(_timerManager.TimeToExpire, pausedTime);
+            Assert.Less(_timerManager.TimeToExpire.Value, pausedTime);
         }
 
 
@@ -79,7 +79,7 @@ namespace ClockAppDemo.Tests
             await Task.Delay(1000);
             _timerManager.IsTimerCreated.Value = false;
 
-            Assert.AreEqual(0, _timerManager.TimeToExpire);
+            Assert.AreEqual(0, _timerManager.TimeToExpire.Value);
             Assert.IsFalse(_timerManager.IsTimerCreated.Value);
             Assert.IsFalse(_timerManager.IsTimerRunning.Value);
         }
@@ -90,13 +90,13 @@ namespace ClockAppDemo.Tests
             _timerManager.SetInitialTimeInSeconds(5);
             _timerManager.IsTimerRunning.Value = true;
 
-            Assert.AreEqual(5, _timerManager.TimeToExpire);
+            Assert.AreEqual(5, _timerManager.TimeToExpire.Value);
 
             await Task.Delay(2000);
 
-            Assert.AreEqual(3, _timerManager.TimeToExpire);
-            Assert.Less(_timerManager.TimeToExpire, 5);
-            Assert.GreaterOrEqual(_timerManager.TimeToExpire, 0);
+            Assert.AreEqual(3, _timerManager.TimeToExpire.Value);
+            Assert.Less(_timerManager.TimeToExpire.Value, 5);
+            Assert.GreaterOrEqual(_timerManager.TimeToExpire.Value, 0);
         }
     }
 }

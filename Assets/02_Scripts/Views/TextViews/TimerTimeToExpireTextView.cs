@@ -26,7 +26,6 @@ namespace ClockAppDemo
         public void Update()
         {
             if (!_timerManager.IsTimerRunning.Value) return;
-
             TimeSpan currentTimeSpan = TimeSpan.FromSeconds(_timerManager.TimeToExpire);
 
             _timeToExpireText.text = $"{(int)currentTimeSpan.TotalHours:00}{currentTimeSpan:\\:mm\\:ss}";

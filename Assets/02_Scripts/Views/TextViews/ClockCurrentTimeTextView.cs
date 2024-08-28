@@ -7,11 +7,12 @@ namespace ClockAppDemo
     public class ClockCurrentTimeTextView : MonoBehaviour
     {
         [SerializeField] public TMP_Text _currentTimeText;
+        [SerializeField] public TMP_Text _currentTimeZoneText;
 
         public void Update()
         {
-            //Debug.Log(TimeZoneInfo.Local);
             _currentTimeText.text = DateTime.Now.ToString("HH:mm:ss");
+            _currentTimeZoneText.text = TimeZoneInfo.Local.DaylightName;
         }
     }
 }

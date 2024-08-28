@@ -45,11 +45,11 @@ namespace ClockAppDemo
         private void AddStopwatchRecord()
         {
             _recordedTimesPresenter.AddRecordToList(
-                _stopwatchManager.ElapsedMilliseconds - _latestLapElapsedMiliseconds,
-                _stopwatchManager.ElapsedMilliseconds
+                _stopwatchManager.ElapsedMilliseconds.Value - _latestLapElapsedMiliseconds,
+                _stopwatchManager.ElapsedMilliseconds.Value
                 );
 
-            _latestLapElapsedMiliseconds = _stopwatchManager.ElapsedMilliseconds;
+            _latestLapElapsedMiliseconds = _stopwatchManager.ElapsedMilliseconds.Value;
         }
 
         private void RestartStopwatch()

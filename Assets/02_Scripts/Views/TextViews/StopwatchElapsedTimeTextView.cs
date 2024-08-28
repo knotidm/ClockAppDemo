@@ -21,15 +21,16 @@ namespace ClockAppDemo
                     ResetElapsedTimeText();
                 }
             }).AddTo(this);
-        }
 
-        public void Update()
-        {
-            if (!_stopwatchManager.IsStopwatchRunning.Value) return;
+            _stopwatchManager.ElapsedMilliseconds.Subscribe(elapsedMilliseconds =>
+            {
+                if (!_stopwatchManager.IsStopwatchRunning.Value) return;
 
-            TimeSpan currentTimeSpan = TimeSpan.FromMilliseconds(_stopwatchManager.ElapsedMilliseconds);
+                TimeSpan currentTimeSpan = TimeSpan.FromMilliseconds(elapsedMilliseconds);
 
-            _elapsedTimeText.text = currentTimeSpan.ToString(@"mm\:ss\.ff");
+                _elapsedTimeText.text = currentTimeSpan.ToString(@"mm\:ss\.ff");
+
+            }).AddTo(this);
         }
 
         private void ResetElapsedTimeText()

@@ -12,11 +12,13 @@ namespace ClockAppDemo.Tests
     {
         private ClockCurrentTimeTextView _clockCurrentTimeTextView;
         private TMP_Text _currentTimeText;
+        private TMP_Text _currentTimeZoneText;
 
         [SetUp]
         public void CommonInstall()
         {
             _currentTimeText = new GameObject().AddComponent<TextMeshProUGUI>();
+            _currentTimeZoneText = new GameObject().AddComponent<TextMeshProUGUI>();
 
             PreInstall();
             Container.Bind<ClockCurrentTimeTextView>().FromNewComponentOnNewGameObject().AsSingle();
@@ -25,6 +27,7 @@ namespace ClockAppDemo.Tests
 
             _clockCurrentTimeTextView = Container.Resolve<ClockCurrentTimeTextView>();
             _clockCurrentTimeTextView._currentTimeText = _currentTimeText;
+            _clockCurrentTimeTextView._currentTimeZoneText = _currentTimeZoneText;
         }
 
         [Test]

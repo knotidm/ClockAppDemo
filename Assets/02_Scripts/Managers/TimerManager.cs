@@ -36,9 +36,10 @@ namespace ClockAppDemo
                 {
                     if (Timer == null && !IsTimerCreated.Value)
                     {
+                        IsTimerCreated.Value = true;
+
                         Timer = new Stopwatch();
                         Run();
-                        IsTimerCreated.Value = true;
                     }
                     else if (Timer != null && IsTimerCreated.Value)
                     {

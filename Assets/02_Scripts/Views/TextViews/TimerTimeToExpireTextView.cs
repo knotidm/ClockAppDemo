@@ -21,15 +21,16 @@ namespace ClockAppDemo
                     ResetTimeToExpireText();
                 }
             }).AddTo(this);
-        }
 
-        public void Update()
-        {
-            if (!_timerManager.IsTimerRunning.Value) return;
+            _timerManager.TimeToExpire.Subscribe(timeToExpire =>
+            {
+                if (!_timerManager.IsTimerRunning.Value) return;
 
-            TimeSpan currentTimeSpan = TimeSpan.FromSeconds(_timerManager.TimeToExpire);
+                TimeSpan currentTimeSpan = TimeSpan.FromSeconds(timeToExpire);
 
-            _timeToExpireText.text = $"{(int)currentTimeSpan.TotalHours:00}{currentTimeSpan:\\:mm\\:ss}";
+                _timeToExpireText.text = $"{(int)currentTimeSpan.TotalHours:00}{currentTimeSpan:\\:mm\\:ss}";
+
+            }).AddTo(this);
         }
 
         private void ResetTimeToExpireText()

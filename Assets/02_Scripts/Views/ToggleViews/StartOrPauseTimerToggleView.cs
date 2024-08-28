@@ -6,6 +6,7 @@ namespace ClockAppDemo
     public class StartOrPauseTimerToggleView : MainScreenToggleView
     {
         [Inject] private readonly TimerManager _timerManager;
+        [Inject] private readonly IInputFieldsPresenter _inputFieldsPresenter;
 
         public override void Start()
         {
@@ -13,8 +14,14 @@ namespace ClockAppDemo
 
             _toggle.OnValueChangedAsObservable().Subscribe(isOn =>
             {
-                _timerManager.IsTimerRunning.Value = isOn;
-
+                if (_inputFieldsPresenter.GetTimerInitialTime() > 0)
+                {
+                    _timerManager.IsTimerRunning.Value = isOn;
+                }
+                else
+                {
+                    _toggle.isOn = false;
+                }
             }).AddTo(this);
 
             _timerManager.IsTimerCreated.Subscribe(isTimerCreated =>

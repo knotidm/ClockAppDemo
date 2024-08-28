@@ -40,7 +40,7 @@ namespace ClockAppDemo.Tests
 
             Assert.IsTrue(_stopwatchManager.IsStopwatchCreated.Value);
             Assert.IsTrue(_stopwatchManager.IsStopwatchRunning.Value);
-            Assert.Greater(_stopwatchManager.ElapsedMilliseconds, 0);
+            Assert.Greater(_stopwatchManager.ElapsedMilliseconds.Value, 0);
         }
 
         [Test]
@@ -50,10 +50,10 @@ namespace ClockAppDemo.Tests
             await Task.Delay(100);
             _stopwatchManager.IsStopwatchRunning.Value = false;
 
-            long pausedTime = _stopwatchManager.ElapsedMilliseconds;
+            long pausedTime = _stopwatchManager.ElapsedMilliseconds.Value;
             await Task.Delay(100);
 
-            Assert.AreEqual(pausedTime, _stopwatchManager.ElapsedMilliseconds);
+            Assert.AreEqual(pausedTime, _stopwatchManager.ElapsedMilliseconds.Value);
         }
 
         [Test]
@@ -63,13 +63,13 @@ namespace ClockAppDemo.Tests
             await Task.Delay(100);
             _stopwatchManager.IsStopwatchRunning.Value = false;
 
-            long pausedTime = _stopwatchManager.ElapsedMilliseconds;
+            long pausedTime = _stopwatchManager.ElapsedMilliseconds.Value;
             await Task.Delay(100);
 
             _stopwatchManager.IsStopwatchRunning.Value = true;
             await Task.Delay(100);
 
-            Assert.Greater(_stopwatchManager.ElapsedMilliseconds, pausedTime);
+            Assert.Greater(_stopwatchManager.ElapsedMilliseconds.Value, pausedTime);
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace ClockAppDemo.Tests
             await Task.Delay(100);
             _stopwatchManager.IsStopwatchCreated.Value = false;
 
-            Assert.AreEqual(0, _stopwatchManager.ElapsedMilliseconds);
+            Assert.AreEqual(0, _stopwatchManager.ElapsedMilliseconds.Value);
             Assert.IsFalse(_stopwatchManager.IsStopwatchCreated.Value);
             Assert.IsFalse(_stopwatchManager.IsStopwatchRunning.Value);
         }
@@ -89,8 +89,8 @@ namespace ClockAppDemo.Tests
         {
             _stopwatchManager.IsStopwatchRunning.Value = true;
             await Task.Delay(100);
-            Assert.Greater(_stopwatchManager.ElapsedMilliseconds, 100);
-            Assert.Less(_stopwatchManager.ElapsedMilliseconds, 500);
+            Assert.Greater(_stopwatchManager.ElapsedMilliseconds.Value, 100);
+            Assert.Less(_stopwatchManager.ElapsedMilliseconds.Value, 500);
         }
     }
 }
